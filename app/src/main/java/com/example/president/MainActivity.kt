@@ -1,7 +1,6 @@
 package com.example.president
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
@@ -46,7 +45,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun ListClick(navController: NavController) {
     Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-        DataProvider.presidents.sortedWith(compareBy { it.fullname }).forEach { it ->
+        DataProvider.presidents.sortedWith(compareBy { it.fullname }).forEach {
             Text(
                 it.fullname,
                 modifier = Modifier.selectable(
@@ -61,7 +60,7 @@ fun ListClick(navController: NavController) {
 
 @Composable
 fun StartName(userName: String) {
-    Column() {
+    Column {
         val result = DataProvider.presidents.filter { it.fullname == userName }
         Text(text = result[0].fullname)
         Text(text = result[0].title)
