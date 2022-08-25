@@ -32,9 +32,9 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     NavHost(navController, startDestination = "start") {
-                        composable("start") { listClick(navController = navController) }
+                        composable("start") { ListClick(navController = navController) }
                         composable("startName/{name}") {
-                            startName(it.arguments?.getString("name")!!)
+                            StartName(it.arguments?.getString("name")!!)
                         }
                     }
                 }
@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun listClick(navController: NavController) {
+fun ListClick(navController: NavController) {
     Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
         DataProvider.presidents.sortedWith(compareBy { it.fullname }).forEach { it ->
             Text(
@@ -59,23 +59,10 @@ fun listClick(navController: NavController) {
 
 }
 
-/*@Composable
-fun list() {
-    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-        DataProvider.presidents.sortedWith(compareBy { it.fullname }).forEach { it ->
-            Text(
-                it.fullname,
-                modifier = Modifier.selectable(true, onClick = { Log.i("data", it.fullname) })
-            )
-        }
-    }
-}*/
-
 @Composable
-fun startName(userName: String) {
+fun StartName(userName: String) {
     Column() {
-        Log.i("fe","${DataProvider.presidents.filter { it.fullname== userName }}")
-       var result = DataProvider.presidents.filter { it.fullname == userName }
+        val result = DataProvider.presidents.filter { it.fullname == userName }
         Text(text = result[0].fullname)
         Text(text = result[0].title)
         Text(text = result[0].startYear.toString())
