@@ -48,6 +48,7 @@ android {
 dependencies {
 
     final retrofit_version = '2.9.0'
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation 'androidx.core:core-ktx:1.7.0'

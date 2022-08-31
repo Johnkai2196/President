@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -18,9 +19,9 @@ object Api {
     val url = URL("https://en.wikipedia.org/w/")
 
     object Hits {
-        data class Query(val query: String)
-        data class SearchInfo(val searchinfo: Query)
-        data class Totalhits(val totalhits: SearchInfo)
+        data class Result(@SerializedName("query") var query: Query)
+        data class Query(@SerializedName("searchinfo") var searchinfo: SearchInfo)
+        data class SearchInfo(@SerializedName("totalhits") var totalhits: Int)
     }
 
     interface Service {
@@ -30,7 +31,7 @@ object Api {
             @Query("format") format: String,
             @Query("list") list: String,
             @Query("srsearch") name: String
-        ): Hits.Totalhits
+        ): Hits.Result
     }
 
     private val retrofit = Retrofit.Builder()
@@ -42,5 +43,5 @@ object Api {
 
 class WikiRepository {
     private val call = Api.service
-    suspend fun getUser(name: String) = call.getHits("query","json","search",name)
+    suspend fun getUser(name: String) = call.getHits("query", "json", "search", name)
 }
