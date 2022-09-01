@@ -18,6 +18,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -52,13 +53,14 @@ fun ListClick(mainViewModel: MainViewModel = viewModel()) {
     Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
         hit?.let {
             Text("${change}: Hits ${hit}")
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(1.dp))
             Divider()
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(1.dp))
         }
         DataProvider.presidents.sortedWith(compareBy { it.fullname }).forEach {
             Text(
                 it.fullname,
+                color = if (change == it.fullname) Color.Black else Color.Gray,
                 modifier = Modifier.selectable(
                     true,
                     onClick = {
@@ -71,7 +73,6 @@ fun ListClick(mainViewModel: MainViewModel = viewModel()) {
 
     }
 }
-
 
 class MainViewModel : ViewModel() {
     private val repository: WikiRepository = WikiRepository()
