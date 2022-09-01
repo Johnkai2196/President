@@ -5,17 +5,20 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -44,8 +47,15 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun ListClick(mainViewModel: MainViewModel = viewModel()) {
+    val hit: Int? by mainViewModel.changeNotifier.observeAsState(null)
+    var change by remember { mutableStateOf("") }
     Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-
+        hit?.let {
+            Text("${change}: Hits ${hit}")
+            Spacer(modifier = Modifier.height(16.dp))
+            Divider()
+            Spacer(modifier = Modifier.height(16.dp))
+        }
         DataProvider.presidents.sortedWith(compareBy { it.fullname }).forEach {
             Text(
                 it.fullname,
@@ -53,20 +63,15 @@ fun ListClick(mainViewModel: MainViewModel = viewModel()) {
                     true,
                     onClick = {
                         mainViewModel.getHits(it.fullname)
+                        change = it.fullname
                     }
                 )
             )
         }
-        Texting(mainViewModel)
+
     }
 }
 
-@Composable
-fun Texting(mainViewModel: MainViewModel) {
-    val text: Int? by mainViewModel.changeNotifier.observeAsState(initial = null)
-    text?.let { Text("$text") }
-
-}
 
 class MainViewModel : ViewModel() {
     private val repository: WikiRepository = WikiRepository()
