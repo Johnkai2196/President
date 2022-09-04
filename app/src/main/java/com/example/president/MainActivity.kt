@@ -52,7 +52,7 @@ fun ListClick(mainViewModel: MainViewModel = viewModel()) {
     var change by remember { mutableStateOf("") }
     Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
         hit?.let {
-            Text("${change}: Hits ${hit}")
+            Text("${change}: Hits $hit")
             Spacer(modifier = Modifier.height(1.dp))
             Divider()
             Spacer(modifier = Modifier.height(1.dp))
